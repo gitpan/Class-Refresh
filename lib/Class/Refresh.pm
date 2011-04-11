@@ -1,6 +1,6 @@
 package Class::Refresh;
 BEGIN {
-  $Class::Refresh::VERSION = '0.01';
+  $Class::Refresh::VERSION = '0.02';
 }
 use strict;
 use warnings;
@@ -176,7 +176,7 @@ Class::Refresh - refresh your classes during runtime
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 

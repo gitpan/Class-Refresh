@@ -40,7 +40,7 @@
          "web" : "http://github.com/doy/class-refresh"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -167,7 +167,7 @@
          {
             "class" : "Dist::Zilla::Plugin::CompileTests",
             "name" : "@DOY/CompileTests",
-            "version" : "1.103030"
+            "version" : "1.110930"
          },
          {
             "class" : "Dist::Zilla::Plugin::Repository",

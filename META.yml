@@ -19,7 +19,7 @@ requires:
   Class::Unload: 0
 resources:
   repository: git://github.com/doy/class-refresh.git
-version: 0.01
+version: 0.02
 x_Dist_Zilla:
   plugins:
     -
@@ -121,7 +121,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::CompileTests
       name: '@DOY/CompileTests'
-      version: 1.103030
+      version: 1.110930
     -
       class: Dist::Zilla::Plugin::Repository
       name: '@DOY/Repository'
