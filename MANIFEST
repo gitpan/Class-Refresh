@@ -33,6 +33,9 @@ t/data/moose-roles/before/Foo/Role.pm
 t/data/moose-subclasses/after/Foo.pm
 t/data/moose-subclasses/before/Foo.pm
 t/data/moose-subclasses/before/Foo/Sub.pm
+t/data/new-modules/after/Foo.pm
+t/data/new-modules/before/Foo.pm
+t/data/new-modules/middle/Foo.pm
 t/data/other-api/after/Foo.pm
 t/data/other-api/after/Foo/Bar.pm
 t/data/other-api/before/Foo.pm
@@ -43,6 +46,7 @@ t/moose-basic.t
 t/moose-metaclasses.t
 t/moose-roles.t
 t/moose-subclasses.t
+t/new-modules.t
 t/other-api.t
 xt/release/eol.t
 xt/release/no-tabs.t

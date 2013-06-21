@@ -1,5 +1,9 @@
 Revision history for Class-Refresh
 
+0.04  2013-06-21
+      - fix refreshing a module for the first time when it was first loaded
+        after the first call to refresh
+
 0.03  2013-06-21
       - fix the case where reloading after a compilation error wouldn't work
         properly (Michael Reddick)

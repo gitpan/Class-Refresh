@@ -3,7 +3,7 @@ BEGIN {
   $Class::Refresh::AUTHORITY = 'cpan:DOY';
 }
 {
-  $Class::Refresh::VERSION = '0.03';
+  $Class::Refresh::VERSION = '0.04';
 }
 use strict;
 use warnings;
@@ -27,6 +27,11 @@ sub refresh {
 sub modified_modules {
     my $class = shift;
 
+    if (!%CACHE) {
+        $class->_update_cache_for($_) for keys %INC;
+        return;
+    }
+
     my @ret;
     for my $file (keys %CACHE) {
         # refresh files that are in our
@@ -42,6 +47,7 @@ sub modified_modules {
         }
         else {
             $class->_update_cache_for($file);
+            push @ret, $class->_file_to_mod($file);
         }
     }
 
@@ -193,7 +199,7 @@ Class::Refresh - refresh your classes during runtime
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 

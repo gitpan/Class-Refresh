@@ -29,7 +29,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Class-Refresh
   homepage: http://metacpan.org/release/Class-Refresh
   repository: git://github.com/doy/class-refresh.git
-version: 0.03
+version: 0.04
 x_Dist_Zilla:
   perl:
     version: 5.018000
