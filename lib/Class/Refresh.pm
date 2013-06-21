@@ -1,6 +1,9 @@
 package Class::Refresh;
 BEGIN {
-  $Class::Refresh::VERSION = '0.02';
+  $Class::Refresh::AUTHORITY = 'cpan:DOY';
+}
+{
+  $Class::Refresh::VERSION = '0.03';
 }
 use strict;
 use warnings;
@@ -8,6 +11,7 @@ use warnings;
 
 use Class::Unload;
 use Class::Load;
+use Try::Tiny;
 
 
 our %CACHE;
@@ -24,6 +28,13 @@ sub modified_modules {
     my $class = shift;
 
     my @ret;
+    for my $file (keys %CACHE) {
+        # refresh files that are in our
+        # %CACHE but not in %INC
+        push @ret, $class->_file_to_mod($file)
+            if (!$INC{$file});
+    }
+
     for my $file (keys %INC) {
         if (exists $CACHE{$file}) {
             push @ret, $class->_file_to_mod($file)
@@ -71,9 +82,15 @@ sub load_module {
     my ($mod) = @_;
     $mod = $class->_file_to_mod($mod);
 
-    Class::Load::load_class($mod);
-
-    $class->_update_cache_for($mod);
+    try {
+        Class::Load::load_class($mod);
+    }
+    catch {
+        die $_;
+    }
+    finally {
+        $class->_update_cache_for($mod);
+    };
 }
 
 sub _dependent_modules {
@@ -118,7 +135,6 @@ sub _update_cache_for {
     my $class = shift;
     my ($file) = @_;
     $file = $class->_mod_to_file($file);
-
     $CACHE{$file} = $class->_mtime($file);
 }
 
@@ -134,7 +150,7 @@ sub _mtime {
     my $class = shift;
     my ($file) = @_;
     $file = $class->_mod_to_file($file);
-
+    return 1 if !$INC{$file};
     return join ' ', (stat($INC{$file}))[1, 7, 9];
 }
 
@@ -168,6 +184,7 @@ sub _mod_to_file {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -176,7 +193,7 @@ Class::Refresh - refresh your classes during runtime
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
@@ -279,10 +296,6 @@ it's not a problem that's solvable in the general case.
 
 =back
 
-=head1 CREDITS
-
-This module was based in large part on L<Module::Refresh> by Jesse Vincent.
-
 =head1 BUGS
 
 =over 4
@@ -305,15 +318,7 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Class-Refresh>.
 
 =head1 SEE ALSO
 
-Please see those modules/websites for more information related to this module.
-
-=over 4
-
-=item *
-
 L<Module::Refresh>
-
-=back
 
 =head1 SUPPORT
 
@@ -325,23 +330,27 @@ You can also look for information at:
 
 =over 4
 
-=item * AnnoCPAN: Annotated CPAN documentation
+=item * MetaCPAN
 
-L<http://annocpan.org/dist/Class-Refresh>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Class-Refresh>
+L<https://metacpan.org/release/Class-Refresh>
 
 =item * RT: CPAN's request tracker
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Class-Refresh>
 
-=item * Search CPAN
+=item * Github
 
-L<http://search.cpan.org/dist/Class-Refresh>
+L<https://github.com/doy/class-refresh>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Class-Refresh>
 
 =back
+
+=head1 CREDITS
+
+This module was based in large part on L<Module::Refresh> by Jesse Vincent.
 
 =head1 AUTHOR
 
@@ -349,10 +358,9 @@ Jesse Luehrs <doy at tozt dot net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Jesse Luehrs.
+This software is copyright (c) 2013 by Jesse Luehrs.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

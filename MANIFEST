@@ -9,8 +9,12 @@ dist.ini
 lib/Class/Refresh.pm
 t/00-compile.t
 t/basic.t
+t/compile-error.t
 t/data/basic/after/Foo.pm
 t/data/basic/before/Foo.pm
+t/data/compile-error/after/Foo.pm
+t/data/compile-error/before/Foo.pm
+t/data/compile-error/middle/Foo.pm
 t/data/moose-basic/after/Foo.pm
 t/data/moose-basic/after/Foo/Immutable.pm
 t/data/moose-basic/before/Foo.pm
@@ -40,8 +44,7 @@ t/moose-metaclasses.t
 t/moose-roles.t
 t/moose-subclasses.t
 t/other-api.t
-t/release-eol.t
-t/release-no-tabs.t
-t/release-pod-coverage.t
-t/release-pod-syntax.t
-weaver.ini
+xt/release/eol.t
+xt/release/no-tabs.t
+xt/release/pod-coverage.t
+xt/release/pod-syntax.t

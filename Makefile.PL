@@ -4,34 +4,56 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'refresh your classes during runtime',
-  'AUTHOR' => 'Jesse Luehrs <doy at tozt dot net>',
-  'BUILD_REQUIRES' => {
-    'Test::More' => '0.88',
-    'Test::Requires' => '0'
+  "ABSTRACT" => "refresh your classes during runtime",
+  "AUTHOR" => "Jesse Luehrs <doy at tozt dot net>",
+  "BUILD_REQUIRES" => {},
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+  "DISTNAME" => "Class-Refresh",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Class::Refresh",
+  "PREREQ_PM" => {
+    "Class::Load" => 0,
+    "Class::Unload" => 0,
+    "Try::Tiny" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  'DISTNAME' => 'Class-Refresh',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Class::Refresh',
-  'PREREQ_PM' => {
-    'Class::Load' => '0',
-    'Class::Unload' => '0'
+  "TEST_REQUIRES" => {
+    "Exporter" => 0,
+    "File::Copy" => 0,
+    "File::Find" => 0,
+    "File::Temp" => 0,
+    "Test::Fatal" => 0,
+    "Test::More" => "0.88",
+    "Test::Requires" => 0
   },
-  'VERSION' => '0.02',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.03",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
+  my $tr = delete $WriteMakefileArgs{TEST_REQUIRES};
+  my $br = $WriteMakefileArgs{BUILD_REQUIRES};
+  for my $mod ( keys %$tr ) {
+    if ( exists $br->{$mod} ) {
+      $br->{$mod} = $tr->{$mod} if $tr->{$mod} > $br->{$mod};
+    }
+    else {
+      $br->{$mod} = $tr->{$mod};
+    }
+  }
+}
 
 unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
   my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
