@@ -28,8 +28,10 @@
       },
       "runtime" : {
          "requires" : {
+            "B" : "0",
             "Class::Load" : "0",
             "Class::Unload" : "0",
+            "Devel::OverrideGlobalRequire" : "0",
             "Try::Tiny" : "0",
             "strict" : "0",
             "warnings" : "0"
@@ -60,7 +62,7 @@
          "web" : "https://github.com/doy/class-refresh"
       }
    },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018000"

@@ -20,8 +20,10 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Class::Refresh",
   "PREREQ_PM" => {
+    "B" => 0,
     "Class::Load" => 0,
     "Class::Unload" => 0,
+    "Devel::OverrideGlobalRequire" => 0,
     "Try::Tiny" => 0,
     "strict" => 0,
     "warnings" => 0
@@ -35,7 +37,7 @@ my %WriteMakefileArgs = (
     "Test::More" => "0.88",
     "Test::Requires" => 0
   },
-  "VERSION" => "0.04",
+  "VERSION" => "0.05",
   "test" => {
     "TESTS" => "t/*.t"
   }

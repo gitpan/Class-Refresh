@@ -1,5 +1,9 @@
 Revision history for Class-Refresh
 
+0.05  2013-06-25
+      - revert the previous fix, since it causes issues
+      - add 'track_require' import arg, as a better fix
+
 0.04  2013-06-21
       - fix refreshing a module for the first time when it was first loaded
         after the first call to refresh

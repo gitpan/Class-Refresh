@@ -3,7 +3,7 @@ BEGIN {
   $Class::Refresh::AUTHORITY = 'cpan:DOY';
 }
 {
-  $Class::Refresh::VERSION = '0.04';
+  $Class::Refresh::VERSION = '0.05';
 }
 use strict;
 use warnings;
@@ -16,6 +16,30 @@ use Try::Tiny;
 
 our %CACHE;
 
+sub import {
+    my $package = shift;
+    my %opts = @_;
+
+    if ($opts{track_require}) {
+        require Devel::OverrideGlobalRequire;
+        require B;
+        Devel::OverrideGlobalRequire::override_global_require(sub {
+            my $next = shift;
+            my ($file) = @_;
+
+            my $ret = $next->();
+
+            $package->_update_cache_for($file)
+                # require v5.8.1;
+                unless ref(\$file) eq 'VSTRING'
+                # require 5.008001;
+                || !(B::svref_2object(\$file)->FLAGS & B::SVf_POK());
+
+            return $ret;
+        });
+    }
+}
+
 
 sub refresh {
     my $class = shift;
@@ -26,11 +50,6 @@ sub refresh {
 
 sub modified_modules {
     my $class = shift;
-
-    if (!%CACHE) {
-        $class->_update_cache_for($_) for keys %INC;
-        return;
-    }
 
     my @ret;
     for my $file (keys %CACHE) {
@@ -47,7 +66,6 @@ sub modified_modules {
         }
         else {
             $class->_update_cache_for($file);
-            push @ret, $class->_file_to_mod($file);
         }
     }
 
@@ -199,7 +217,7 @@ Class::Refresh - refresh your classes during runtime
 
 =head1 VERSION
 
-version 0.04
+version 0.05
 
 =head1 SYNOPSIS
 
@@ -222,6 +240,21 @@ becomes inconvenient - for instance, in a REPL, or in a stateful web
 application, restarting from the beginning after every code change can get
 pretty tedious. This module allows you to reload your application classes on
 the fly, so that the code/test cycle becomes a lot easier.
+
+This module takes a hash of import arguments, which can include:
+
+=over 4
+
+=item track_require
+
+  use Class::Refresh track_require => 1;
+
+If set, a C<require()> hook will be installed to track modules which are
+loaded. This will make the list of modules to reload when C<refresh> is called
+more accurate, but may cause issues with other modules which hook into
+C<require> (since the hook is global).
+
+=back
 
 This module has several limitations, due to reloading modules in this way being
 an inherently fragile operation. Therefore, this module is recommended for use
@@ -272,6 +305,13 @@ Loads C<$mod>, using L<Class::Load>.
 =head1 CAVEATS
 
 =over 4
+
+=item Refreshing modules may miss modules which have been externally loaded since the last call to refresh
+
+This is because it's not easily possible to tell if a module has been modified
+since it was loaded, if we haven't seen it so far. A workaround for this may be
+to set the C<track_require> option in the import arguments (see above),
+although this comes with its own set of caveats (since it is global behavior).
 
 =item Global variable accesses and function calls may not work as expected
 
