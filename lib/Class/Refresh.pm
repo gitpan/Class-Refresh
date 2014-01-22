@@ -3,7 +3,7 @@ BEGIN {
   $Class::Refresh::AUTHORITY = 'cpan:DOY';
 }
 {
-  $Class::Refresh::VERSION = '0.05';
+  $Class::Refresh::VERSION = '0.06';
 }
 use strict;
 use warnings;
@@ -106,11 +106,20 @@ sub load_module {
     my ($mod) = @_;
     $mod = $class->_file_to_mod($mod);
 
+    my $file = $class->_mod_to_file($mod);
+    my $last_require_failed = exists $INC{$file} && !defined $INC{$file};
+
     try {
         Class::Load::load_class($mod);
     }
     catch {
-        die $_;
+        if ($last_require_failed) {
+                # This file failed to load previously.
+                # Presumably that error has already been caught, so that's fine
+        }
+        else {
+                die $_;
+        }
     }
     finally {
         $class->_update_cache_for($mod);
@@ -217,7 +226,7 @@ Class::Refresh - refresh your classes during runtime
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
@@ -404,7 +413,7 @@ Jesse Luehrs <doy at tozt dot net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Jesse Luehrs.
+This software is copyright (c) 2014 by Jesse Luehrs.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
