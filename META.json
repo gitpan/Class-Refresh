@@ -1,7 +1,7 @@
 {
    "abstract" : "refresh your classes during runtime",
    "author" : [
-      "Jesse Luehrs <doy at tozt dot net>"
+      "Jesse Luehrs <doy@tozt.net>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Dist::Zilla version 5.008, CPAN::Meta::Converter version 2.132830",
@@ -31,6 +31,7 @@
       "runtime" : {
          "requires" : {
             "B" : "0",
+            "Carp" : "0",
             "Class::Load" : "0",
             "Class::Unload" : "0",
             "Devel::OverrideGlobalRequire" : "0",
@@ -58,7 +59,7 @@
    "provides" : {
       "Class::Refresh" : {
          "file" : "lib/Class/Refresh.pm",
-         "version" : "0.06"
+         "version" : "0.07"
       }
    },
    "release_status" : "stable",
@@ -73,7 +74,7 @@
          "web" : "https://github.com/doy/class-refresh"
       }
    },
-   "version" : "0.06",
+   "version" : "0.07",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018001"
@@ -295,11 +296,6 @@
             "version" : "5.008"
          },
          {
-            "class" : "Dist::Zilla::Plugin::ContributorsFromGit",
-            "name" : "ContributorsFromGit",
-            "version" : "0.006"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",
             "name" : "AutoPrereqs",
             "version" : "5.008"
@@ -355,7 +351,6 @@
    },
    "x_authority" : "cpan:DOY",
    "x_contributors" : [
-      "Jesse Luehrs <doy@tozt.net>",
       "Michael Reddick <michael.reddick@gmail.com>",
       "amacleay <a.macleay@gmail.com>"
    ]

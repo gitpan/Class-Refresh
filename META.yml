@@ -1,7 +1,7 @@
 ---
 abstract: 'refresh your classes during runtime'
 author:
-  - 'Jesse Luehrs <doy at tozt dot net>'
+  - 'Jesse Luehrs <doy@tozt.net>'
 build_requires:
   Exporter: 0
   File::Copy: 0
@@ -26,9 +26,10 @@ name: Class-Refresh
 provides:
   Class::Refresh:
     file: lib/Class/Refresh.pm
-    version: 0.06
+    version: 0.07
 requires:
   B: 0
+  Carp: 0
   Class::Load: 0
   Class::Unload: 0
   Devel::OverrideGlobalRequire: 0
@@ -39,7 +40,7 @@ resources:
   bugtracker: https://github.com/doy/class-refresh/issues
   homepage: http://metacpan.org/release/Class-Refresh
   repository: git://github.com/doy/class-refresh.git
-version: 0.06
+version: 0.07
 x_Dist_Zilla:
   perl:
     version: 5.018001
@@ -212,10 +213,6 @@ x_Dist_Zilla:
       name: '@DOY/UploadToCPAN'
       version: 5.008
     -
-      class: Dist::Zilla::Plugin::ContributorsFromGit
-      name: ContributorsFromGit
-      version: 0.006
-    -
       class: Dist::Zilla::Plugin::AutoPrereqs
       name: AutoPrereqs
       version: 5.008
@@ -258,6 +255,5 @@ x_Dist_Zilla:
     version: 5.008
 x_authority: cpan:DOY
 x_contributors:
-  - 'Jesse Luehrs <doy@tozt.net>'
   - 'Michael Reddick <michael.reddick@gmail.com>'
   - 'amacleay <a.macleay@gmail.com>'

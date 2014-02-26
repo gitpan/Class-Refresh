@@ -11,7 +11,7 @@ use ExtUtils::MakeMaker 6.30;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "refresh your classes during runtime",
-  "AUTHOR" => "Jesse Luehrs <doy at tozt dot net>",
+  "AUTHOR" => "Jesse Luehrs <doy\@tozt.net>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
   "NAME" => "Class::Refresh",
   "PREREQ_PM" => {
     "B" => 0,
+    "Carp" => 0,
     "Class::Load" => 0,
     "Class::Unload" => 0,
     "Devel::OverrideGlobalRequire" => 0,
@@ -42,7 +43,7 @@ my %WriteMakefileArgs = (
     "Test::Requires" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.06",
+  "VERSION" => "0.07",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -51,6 +52,7 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "B" => 0,
+  "Carp" => 0,
   "Class::Load" => 0,
   "Class::Unload" => 0,
   "Devel::OverrideGlobalRequire" => 0,
